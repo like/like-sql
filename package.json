@@ -1,0 +1,31 @@
+{
+  "name": "like-sql",
+  "version": "0.1.0",
+  "description": "Simple SQL query builder",
+  "main": "index.js",
+  "devDependencies": {
+    "standard": "^16.0.4",
+    "tape": "^5.5.0"
+  },
+  "scripts": {
+    "test": "standard && tape test.js",
+    "tape": "tape test.js",
+    "lint": "standard"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/LuKks/like-sql.git"
+  },
+  "author": "Lucas Barrena <lucasbarrena@hotmail.com>",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/LuKks/like-sql/issues"
+  },
+  "homepage": "https://github.com/LuKks/like-sql",
+  "keywords": [
+    "like",
+    "sql",
+    "mysql",
+    "simple"
+  ]
+}
