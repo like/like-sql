@@ -117,6 +117,17 @@ class LikeSQL {
     return this._selectOne ? this._selectOne(sql, values) : [sql, values]
   }
 
+  iterate (table, cols, find, ...values) {
+    if (!cols) cols = ['*']
+
+    cols = cols.map(c => (c === '*') ? c : ('`' + c + '`')).join(', ')
+    find = LikeSQL.parseFind(find)
+
+    const sql = `SELECT ${cols} FROM \`${table}\`${find}`
+
+    return this._iterate ? this._iterate(sql, values) : [sql, values]
+  }
+
   exists (table, find, ...values) {
     find = LikeSQL.parseFind(find)
 

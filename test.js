@@ -108,6 +108,37 @@ tape('selectOne()', async function (t) {
   t.deepEqual(output4, ['SELECT * FROM `users` WHERE username = ? LIMIT 1', ['random-username']])
 })
 
+tape('iterate()', async function (t) {
+  const builder = new SQL()
+
+  const output = builder.iterate('users')
+  t.deepEqual(output, ['SELECT * FROM `users`', []])
+
+  const output2 = builder.iterate('users', ['username'])
+  t.deepEqual(output2, ['SELECT `username` FROM `users`', []])
+
+  const output3 = builder.iterate('users', ['username'], 'LIMIT 1')
+  t.deepEqual(output3, ['SELECT `username` FROM `users` LIMIT 1', []])
+
+  const output4 = builder.iterate('users', ['password'], 'username = ?', 'joe')
+  t.deepEqual(output4, ['SELECT `password` FROM `users` WHERE username = ?', ['joe']])
+
+  const output5 = builder.iterate('users', ['*'], 'ORDER BY username ASC')
+  t.deepEqual(output5, ['SELECT * FROM `users` ORDER BY username ASC', []])
+
+  const output6 = builder.iterate('users', ['*'], 'ORDER BY username ASC LIMIT 1')
+  t.deepEqual(output6, ['SELECT * FROM `users` ORDER BY username ASC LIMIT 1', []])
+
+  const output7 = builder.iterate('users', ['*'], 'username = ? ORDER BY username ASC LIMIT 2', 'joe')
+  t.deepEqual(output7, ['SELECT * FROM `users` WHERE username = ? ORDER BY username ASC LIMIT 2', ['joe']])
+
+  const output8 = builder.iterate('users', ['*'], 'username = ?', 'random-username')
+  t.deepEqual(output8, ['SELECT * FROM `users` WHERE username = ?', ['random-username']])
+
+  const output9 = builder.iterate('users', ['*'], 'username LIKE ?', 'b%')
+  t.deepEqual(output9, ['SELECT * FROM `users` WHERE username LIKE ?', ['b%']])
+})
+
 tape('exists()', async function (t) {
   const builder = new SQL()
 
