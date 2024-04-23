@@ -85,12 +85,13 @@ class LikeSQL {
     return this._dropTable ? this._dropTable(sql) : [sql]
   }
 
-  insert (table, data) {
+  insert (table, data, opts) {
+    const ignore = (opts && opts.ignore) ? ' OR IGNORE' : ''
     const cols = Object.keys(data).map(c => '`' + c + '`').join(', ')
     const values = Object.values(data)
     const placeholders = Array(values.length).fill('?').join(', ')
 
-    const sql = `INSERT INTO \`${table}\` (${cols}) VALUES (${placeholders})`
+    const sql = `INSERT${ignore} INTO \`${table}\` (${cols}) VALUES (${placeholders})`
 
     return this._insert ? this._insert(sql, values) : [sql, values]
   }
