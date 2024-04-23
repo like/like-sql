@@ -59,6 +59,9 @@ tape('insert()', async function (t) {
 
   const output = builder.insert('users', { username: 'joe', password: '123' })
   t.deepEqual(output, ['INSERT INTO `users` (`username`, `password`) VALUES (?, ?)', ['joe', '123']])
+
+  const output2 = builder.insert('users', { username: 'joe', password: '123' }, { ignore: true })
+  t.deepEqual(output2, ['INSERT OR IGNORE INTO `users` (`username`, `password`) VALUES (?, ?)', ['joe', '123']])
 })
 
 tape('select()', async function (t) {
