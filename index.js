@@ -88,7 +88,7 @@ class LikeSQL {
   insert (table, data, opts) {
     const ignore = (opts && opts.ignore) ? ' OR IGNORE' : ''
     const cols = Object.keys(data).map(c => '`' + c + '`').join(', ')
-    const values = Object.values(data)
+    const values = Object.values(data).map(value => Buffer.isBuffer(value) ? value.toString('base64') : value)
     const placeholders = Array(values.length).fill('?').join(', ')
 
     const sql = `INSERT${ignore} INTO \`${table}\` (${cols}) VALUES (${placeholders})`
