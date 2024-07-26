@@ -91,6 +91,14 @@ class LikeSQL {
     const values = Object.values(data)
     const placeholders = Array(values.length).fill('?').join(', ')
 
+    if (this.type === 'rqlite') {
+      for (let i = 0; i < values.length; i++) {
+        if (Buffer.isBuffer(values[i])) {
+          values[i] = values[i].toString('hex')
+        }
+      }
+    }
+
     const sql = `INSERT${ignore} INTO \`${table}\` (${cols}) VALUES (${placeholders})`
 
     return this._insert ? this._insert(sql, values) : [sql, values]
@@ -144,6 +152,14 @@ class LikeSQL {
     set = set.join(', ')
     find = LikeSQL.parseFind(find)
     values.unshift(...Object.values(arithmetic ? data.slice(1) : data))
+
+    if (this.type === 'rqlite') {
+      for (let i = 0; i < values.length; i++) {
+        if (Buffer.isBuffer(values[i])) {
+          values[i] = values[i].toString('hex')
+        }
+      }
+    }
 
     const sql = `UPDATE \`${table}\` SET ${set}${find}`
 

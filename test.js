@@ -62,6 +62,9 @@ tape('insert()', async function (t) {
 
   const output2 = builder.insert('users', { username: 'joe', password: '123' }, { ignore: true })
   t.deepEqual(output2, ['INSERT OR IGNORE INTO `users` (`username`, `password`) VALUES (?, ?)', ['joe', '123']])
+
+  const output3 = builder.insert('files', { content: Buffer.from('Hello World!') })
+  t.deepEqual(output3, ['INSERT INTO `files` (`content`) VALUES (?)', [Buffer.from('Hello World!')]])
 })
 
 tape('select()', async function (t) {
